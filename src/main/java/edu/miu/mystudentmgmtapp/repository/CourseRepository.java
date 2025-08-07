@@ -1,11 +1,11 @@
 package edu.miu.mystudentmgmtapp.repository;
 
+import edu.miu.mystudentmgmtapp.model.Course;
 import edu.miu.mystudentmgmtapp.model.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
 
-public interface StudentRepository extends JpaRepository<Student, Integer> {
-    Optional<Student> findByStudentNumber(String studentNumber);
+public interface CourseRepository extends JpaRepository<Course, Integer> {
 }

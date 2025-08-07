@@ -1,5 +1,7 @@
 package edu.miu.mystudentmgmtapp.service.impl;
 
+import edu.miu.mystudentmgmtapp.model.Classroom;
+import edu.miu.mystudentmgmtapp.model.Course;
 import edu.miu.mystudentmgmtapp.model.Student;
 import edu.miu.mystudentmgmtapp.repository.StudentRepository;
 import edu.miu.mystudentmgmtapp.service.StudentService;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -26,9 +29,9 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student findStudentById(Integer id) {
+    public Student findByStudentNumber(String studentNumber) {
         return studentRepository
-                .findById(id)
+                .findByStudentNumber(studentNumber)
                 .orElse(null);
     }
 
@@ -39,11 +42,26 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student saveStudent(Student student) {
-        return studentRepository.save(student);
+        Optional<Student> existing = studentRepository.findByStudentNumber(student.getStudentNumber());
+        if (existing.isPresent()) {
+            throw new IllegalArgumentException("Student already exists");
+        } else {
+            return studentRepository.save(student);
+        }
     }
 
     @Override
     public void deleteStudentById(Integer id) {
         studentRepository.deleteById(id);
+    }
+
+    @Override
+    public void addCourse(Course course) {
+
+    }
+
+    @Override
+    public void addClassroom(Classroom classroom) {
+
     }
 }

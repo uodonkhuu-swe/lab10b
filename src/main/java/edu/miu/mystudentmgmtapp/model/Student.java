@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.processing.Pattern;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,7 +17,7 @@ import java.time.LocalDate;
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer studentId;
+    private Integer id;
     @Column(name = "student_number", nullable = false, length = 50, unique = true)
     private String studentNumber;
     private String firstName;
@@ -26,4 +27,14 @@ public class Student {
     private Double cgpa;
 
     private LocalDate dateOfEnrollment;
+
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(nullable = true)
+    private Transcript transcript;
+
+    @ManyToOne
+    private Classroom classroom;
+
+    @ManyToMany
+    private List<Course> courses;
 }
